@@ -1,13 +1,7 @@
-﻿using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Translator_WPF.Models;
 
 namespace Translator_WPF
 {
@@ -19,6 +13,7 @@ namespace Translator_WPF
         public MainWindow()
         {
             InitializeComponent();
+            fromLanguage.ItemsSource = Translator_WPF.Models.Language.Languages;
         }
 
         private void RichTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -26,6 +21,13 @@ namespace Translator_WPF
             if (e.Key == Key.Enter)
             {
                 //prelozit
+            }
+        }
+        private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (fromLanguage.SelectedItem is not null)
+            {
+              //posle language kod do api 
             }
         }
     }
