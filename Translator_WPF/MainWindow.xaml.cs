@@ -20,5 +20,13 @@ namespace Translator_WPF
         {
             InitializeComponent();
         }
+
+        private void RichTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                //prelozit
+            }
+        }
     }
 }
