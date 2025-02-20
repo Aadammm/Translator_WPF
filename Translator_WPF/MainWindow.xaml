@@ -4,28 +4,31 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Translator_WPF"
-        xmlns:vm="clr-namespace:Translator_WPF.ViewModel"
+        xmlns:vm="clr-namespace:Translator_WPF.ViewModels"
         mc:Ignorable="d"
         Title="Translator" Height="250" Width="800">
     <Window.DataContext>
-        <vm:Translate />
+        <vm:TranslateVM />
     </Window.DataContext>
 
-    <Grid  Background="Gray">        
+    <Grid  Background="Gray">
         <Grid.ColumnDefinitions >
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Column="0"
                    Margin="3">
-            <ComboBox ItemsSource="{Binding Languages}"
+            <ComboBox x:Name="TextToTranslateBox"
+                      ItemsSource="{Binding Languages}"
                       DisplayMemberPath="Name"
                       SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}"
                       Width="150"  
                       Margin="0 0 0 4"
                       DockPanel.Dock="Top"/>
             <RichTextBox x:Name="TextToTranslate"
+                         AcceptsReturn="True"
                          DockPanel.Dock="Bottom"
+                         TextChanged="RichTextBox_TextChanged"
                          PreviewKeyDown="RichTextBox_PreviewKeyDown">
             </RichTextBox>
         </DockPanel>
@@ -38,7 +41,9 @@
                       Width="150"
                       Margin="0 0 0 4"
                       DockPanel.Dock="Top"/>
-            <TextBlock DockPanel.Dock="Bottom"
+            <TextBlock x:Name="translatedTextBlock"
+                       Text="{Binding TranslateResult}"
+                       DockPanel.Dock="Bottom"
                        Background="White">
 
             </TextBlock>

@@ -8,14 +8,35 @@ using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
 using Translator_WPF.ViewModels.Helpers;
 
-namespace Translator_WPF.ViewModel
+namespace Translator_WPF.ViewModels
 {
-    public class Translate : INotifyPropertyChanged
+    public class TranslateVM : INotifyPropertyChanged
     {
         private ObservableCollection<Languages> languages = new();
+        private string textToTranslate;
+        public string TextToTranslate
+        {
+            get { return textToTranslate; }
+            set
+            {
+                textToTranslate = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string translateResult;
+
+        public string TranslateResult
+        {
+            get { return translateResult; }
+            set { translateResult = value; }
+        }
+
         public ObservableCollection<Languages> Languages
         {
             get => languages;
@@ -58,9 +79,10 @@ namespace Translator_WPF.ViewModel
             }
         }
 
-        public Translate()
+        public TranslateVM()
         {
             LoadLanguages();
+
         }
 
         public async void LoadLanguages()
@@ -78,9 +100,22 @@ namespace Translator_WPF.ViewModel
         {
             if (SelectedLanguage != null)
             {
-                ToLanguages = Languages.Where(x => x.Targets.Contains(selectedLanguage.Code)).ToList();
+                ToLanguages = Languages.Where(x => selectedLanguage.Targets.Contains(x.Code)).ToList();
             }
         }
+        private string GetTextFromRichTextBox(RichTextBox rtb)
+        {
+            TextRange textRange = new(rtb.Document.ContentStart, rtb.Document.ContentEnd);
+            return textRange.Text.Trim();
+        }
 
+        public async Task<string>  TranslateText(string textToTranslate)
+        {
+            return await ApiHelper.TranslateText(textToTranslate, selectedLanguage.Code, selectedToLanguage.Code);
+        }
     }
 }
+//Ácsova Hudecová
+
+//28.3. 14:30-21:30 
+//29.3. 21:00-20:00 
