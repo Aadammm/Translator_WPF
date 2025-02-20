@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
+using Translator_WPF.Models;
 using Translator_WPF.ViewModels.Helpers;
 
 namespace Translator_WPF.ViewModels
@@ -115,7 +116,3 @@ namespace Translator_WPF.ViewModels
         }
     }
 }
-//Ácsova Hudecová
-
-//28.3. 14:30-21:30 
-//29.3. 21:00-20:00 

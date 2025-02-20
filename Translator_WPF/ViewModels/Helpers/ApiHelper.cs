@@ -3,17 +3,19 @@ using Newtonsoft.Json.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
-using System.Text.Json.Serialization;
+using Translator_WPF.Models;
 
 namespace Translator_WPF.ViewModels.Helpers
 {
     public class ApiHelper
     {
+        private const string ApiKey = "xxxx";
+        private const string getLanguagesUrl = "https://libretranslate.com/languages";
+        private const string translateUrl = "https://libretranslate.com/translate";
         public static async Task<List<Languages>> GetLanguages()
-        {
-            string languagesUrl = "https://libretranslate.com/languages";
+        {           
             using HttpClient client = new HttpClient();
-            var result = await client.GetAsync(languagesUrl);
+            var result = await client.GetAsync(getLanguagesUrl);
             if (result.IsSuccessStatusCode)
             {
                 string json = await result.Content.ReadAsStringAsync();
@@ -29,20 +31,20 @@ namespace Translator_WPF.ViewModels.Helpers
 
         public static async Task<string> TranslateText(string TextToTranslate, string fromLanguageCode,string toLanguageCode)
         {
-            string urlTranslate = "https://libretranslate.com/translate";
             using HttpClient client = new HttpClient();
             var requestData = new
             {
                 q = TextToTranslate,
                 source = fromLanguageCode,
                 target = toLanguageCode,
-                format = "text"
+                format = "text",
+                api_key = ApiKey
             };
 
             string jsonContent = JsonConvert.SerializeObject(requestData);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await client.PostAsync(urlTranslate, content);
+            HttpResponseMessage response = await client.PostAsync(translateUrl, content);
 
             if (response.IsSuccessStatusCode)
             {
@@ -57,14 +59,5 @@ namespace Translator_WPF.ViewModels.Helpers
                 return "Translation failed." + response.ReasonPhrase;
             }
         }
-    }
-    public class Languages
-    {
-        [JsonPropertyName("code")]
-        public string Code { get; set; }
-        [JsonPropertyName("name")]
-        public string Name { get; set; }
-        [JsonPropertyName("targets")]
-        public List<string> Targets { get; set; }
     }
 }
