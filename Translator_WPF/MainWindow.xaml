@@ -7,27 +7,23 @@
         xmlns:vm="clr-namespace:Translator_WPF.ViewModel"
         mc:Ignorable="d"
         Title="Translator" Height="250" Width="800">
-    <Window.Resources>
-        <ResourceDictionary>
-            <vm:Translate x:Key="vm"/>
-        </ResourceDictionary>
-    </Window.Resources>
-    <Grid  Background="Gray">
+    <Window.DataContext>
+        <vm:Translate />
+    </Window.DataContext>
+
+    <Grid  Background="Gray">        
         <Grid.ColumnDefinitions >
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-
         <DockPanel Grid.Column="0"
                    Margin="3">
-            <ComboBox x:Name="fromLanguage"
+            <ComboBox ItemsSource="{Binding Languages}"
+                      DisplayMemberPath="Name"
+                      SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}"
                       Width="150"  
                       Margin="0 0 0 4"
-                      DockPanel.Dock="Top"
-                      DisplayMemberPath="Key"
-                      SelectedValuePath="Value"
-                      IsEditable="True"
-                      SelectionChanged="LanguageComboBox_SelectionChanged"/>
+                      DockPanel.Dock="Top"/>
             <RichTextBox x:Name="TextToTranslate"
                          DockPanel.Dock="Bottom"
                          PreviewKeyDown="RichTextBox_PreviewKeyDown">
@@ -36,11 +32,12 @@
 
         <DockPanel  Grid.Column="1"
                     Margin="3">
-            <ComboBox x:Name="toLanguage"
+            <ComboBox ItemsSource="{Binding ToLanguages}"
+                      DisplayMemberPath="Name"
+                      SelectedItem="{Binding SelectedToLanguage, Mode=TwoWay}"
                       Width="150"
                       Margin="0 0 0 4"
-                      DockPanel.Dock="Top"
-                      IsEditable="True"/>
+                      DockPanel.Dock="Top"/>
             <TextBlock DockPanel.Dock="Bottom"
                        Background="White">
 
