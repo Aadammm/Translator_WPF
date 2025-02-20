@@ -1,20 +1,18 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Input;
 using Translator_WPF.ViewModels;
-using Translator_WPF.ViewModels.Helpers;
 
-namespace Translator_WPF
+namespace Translator_WPF.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class TranslatorWindow : Window
     {
         private string textToTranslate;
         TranslateVM TranslateVM;
-        public MainWindow()
+        public TranslatorWindow()
         {
             InitializeComponent();
             TranslateVM = (TranslateVM)DataContext;
@@ -28,20 +26,16 @@ namespace Translator_WPF
                 viewModel.TextToTranslate = textRange.Text.Trim();
             }
         }
-
-        private async void RichTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                string translatedText =await TranslateVM.TranslateText(textToTranslate);
-                translatedTextBlock.Text = translatedText; // Nastaví preklad do TextBlocku
-            }
-        }
-
         private void RichTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextRange textRange = new TextRange(TextToTranslate.Document.ContentStart, TextToTranslate.Document.ContentEnd);
-            textToTranslate= textRange.Text.Trim();
+            textToTranslate = textRange.Text.Trim();
+        }
+
+        private async void TranslateButton_Click(object sender, RoutedEventArgs e)
+        {
+            string translatedText = await TranslateVM.TranslateText(textToTranslate);
+            translatedTextBlock.Text = translatedText; 
         }
     }
 }

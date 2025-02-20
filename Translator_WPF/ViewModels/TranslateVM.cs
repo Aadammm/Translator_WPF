@@ -18,7 +18,7 @@ namespace Translator_WPF.ViewModels
 {
     public class TranslateVM : INotifyPropertyChanged
     {
-        private ObservableCollection<Languages> languages = new();
+        private ObservableCollection<Languages> languages = [];
         private string textToTranslate;
         public string TextToTranslate
         {
@@ -30,13 +30,13 @@ namespace Translator_WPF.ViewModels
             }
         }
 
-        private string translateResult;
+        //private string translateResult;
 
-        public string TranslateResult
-        {
-            get { return translateResult; }
-            set { translateResult = value; }
-        }
+        //public string TranslateResult
+        //{
+        //    get { return translateResult; }
+        //    set { translateResult = value; }
+        //}
 
         public ObservableCollection<Languages> Languages
         {
