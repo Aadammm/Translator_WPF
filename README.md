@@ -19,3 +19,5 @@ A simple WPF desktop application for translating text between different language
 - **.NET Framework**
 - **MVVM Architecture**
 - **LibreTranslate API**
+- ![image](https://github.com/user-attachments/assets/5a353f0d-245b-4b22-8f7c-437cf489875f)
+
