@@ -12,13 +12,15 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using Translator_WPF.Models;
+using Translator_WPF.Service.Interface;
 using Translator_WPF.ViewModels.Helpers;
 
 namespace Translator_WPF.ViewModels
 {
     public class TranslateVM : INotifyPropertyChanged
     {
-        private ObservableCollection<Languages> languages = [];
+        private ObservableCollection<Language> languages = [];
+        private readonly ITranslationService translationService;
         private string textToTranslate;
         public string TextToTranslate
         {
@@ -29,16 +31,7 @@ namespace Translator_WPF.ViewModels
                 OnPropertyChanged();
             }
         }
-
-        //private string translateResult;
-
-        //public string TranslateResult
-        //{
-        //    get { return translateResult; }
-        //    set { translateResult = value; }
-        //}
-
-        public ObservableCollection<Languages> Languages
+        public ObservableCollection<Language> Languages
         {
             get => languages;
             set
@@ -47,8 +40,8 @@ namespace Translator_WPF.ViewModels
                 OnPropertyChanged();
             }
         }
-        private Languages selectedToLanguage;
-        public Languages SelectedToLanguage
+        private Language selectedToLanguage;
+        public Language SelectedToLanguage
         {
             get => selectedToLanguage;
             set
@@ -57,8 +50,8 @@ namespace Translator_WPF.ViewModels
                 OnPropertyChanged();
             }
         }
-        private List<Languages> toLanguages;
-        public List<Languages> ToLanguages
+        private List<Language> toLanguages;
+        public List<Language> ToLanguages
         {
             get => toLanguages;
             set
@@ -68,8 +61,8 @@ namespace Translator_WPF.ViewModels
             }
         }
 
-        private Languages selectedLanguage;
-        public Languages SelectedLanguage
+        private Language selectedLanguage;
+        public Language SelectedLanguage
         {
             get => selectedLanguage;
             set
@@ -82,14 +75,14 @@ namespace Translator_WPF.ViewModels
 
         public TranslateVM()
         {
+            translationService = new TranslationService(new HttpClient());
             LoadLanguages();
-
         }
 
         public async void LoadLanguages()
         {
-            var langs = await ApiHelper.GetLanguages();
-            Languages = new ObservableCollection<Languages>(langs);
+            var langs = await translationService.GetLanguagesAsync();
+            Languages = new ObservableCollection<Language>(langs);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -112,7 +105,7 @@ namespace Translator_WPF.ViewModels
 
         public async Task<string>  TranslateText(string textToTranslate)
         {
-            return await ApiHelper.TranslateText(textToTranslate, selectedLanguage.Code, selectedToLanguage.Code);
+            return await translationService.TranslateTextAsync(textToTranslate, selectedLanguage.Code, selectedToLanguage.Code);
         }
     }
 }

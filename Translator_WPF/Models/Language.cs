@@ -2,7 +2,7 @@
 
 namespace Translator_WPF.Models
 {
-    public class Languages
+    public record Language
     {
         [JsonPropertyName("code")]
         public string Code { get; set; }
