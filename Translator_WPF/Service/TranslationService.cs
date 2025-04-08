@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -56,7 +56,6 @@ namespace Translator_WPF.ViewModels.Helpers
             }
             catch (Exception ex)
             {
-                // Consider logging the exception
                 return $"Translation failed: {ex.Message}";
             }
         }
